@@ -1,6 +1,7 @@
 
 import { Grid } from '../services/Grid.js';
 import { GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, TILE_HEIGHT } from '../constants/gridConfig.js';
+import { NPC } from '../entities/NPC.js';
 
 class GameScene extends Phaser.Scene {
     constructor() {
@@ -14,6 +15,7 @@ class GameScene extends Phaser.Scene {
         this.load.image('tiles', 'https://labs.phaser.io/assets/tilemaps/tiles/grass-tiles-2-small.png');
         this.load.image('player', 'https://labs.phaser.io/assets/sprites/mushroom2.png');
         this.load.image('plant', 'https://labs.phaser.io/assets/sprites/flower-purple.png');
+        this.load.image('npc', 'https://labs.phaser.io/assets/sprites/mushroom.png');
     }
 
     create() {
@@ -37,6 +39,9 @@ class GameScene extends Phaser.Scene {
 
         // Interface básica
         this.add.text(10, 10, 'Dinheiro: $100', { fontSize: '24px', fill: '#fff' });
+
+        // Criar NPC
+        this.npc = new NPC(this, 10, 10);
         
         // Botão de menu
         const menuButton = this.add.text(700, 10, 'Menu', {

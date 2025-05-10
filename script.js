@@ -1,7 +1,7 @@
 
 import { Grid } from './game/services/Grid.js';
 import { GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, TILE_HEIGHT } from './game/constants/gridConfig.js';
-import { MenuScene } from './game/scenes/MenuScene.js';
+import MenuScene from './game/scenes/MenuScene.js';
 
 class MainScene extends Phaser.Scene {
     constructor() {

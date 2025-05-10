@@ -5,8 +5,8 @@ class MenuScene extends Phaser.Scene {
     }
 
     preload() {
-        // Carregar background gradient
-        this.load.image('bg', 'https://labs.phaser.io/assets/skies/space3.png');
+        // Carregar background de fazenda
+        this.load.image('bg', 'https://raw.githubusercontent.com/photonstorm/phaser3-examples/master/public/assets/pics/countryside-platform.png');
     }
 
     create() {
@@ -22,9 +22,9 @@ class MenuScene extends Phaser.Scene {
         // Título com efeito de sombra
         const title = this.add.text(0, -120, 'Farm Game', {
             fontSize: '72px',
-            fill: '#ffffff',
+            fill: '#2c4a1d',
             fontStyle: 'bold',
-            stroke: '#2ecc71',
+            stroke: '#769c4a',
             strokeThickness: 6
         }).setOrigin(0.5);
         container.add(title);

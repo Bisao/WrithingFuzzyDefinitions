@@ -19,6 +19,10 @@ class GameScene extends Phaser.Scene {
 
     create() {
         this.grid = new Grid(this, GRID_WIDTH, GRID_HEIGHT);
+        
+        // Configurar input para mobile
+        this.input.addPointer(2); // Suporte para multitouch
+        this.scale.lockOrientation('landscape'); // Forçar modo paisagem
 
         // Criar o grid de fazenda
         for (let y = 0; y < GRID_HEIGHT; y++) {

@@ -61,13 +61,14 @@ class MainScene extends Phaser.Scene {
 
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
     backgroundColor: '#87CEEB', // Céu azul
     scene: [MenuScene, GameScene, MainScene],
     scale: {
         mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+        width: '100%',
+        height: '100%',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        parent: 'game',
     },
     physics: {
         default: 'arcade',

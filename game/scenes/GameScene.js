@@ -58,7 +58,7 @@ class GameScene extends Phaser.Scene {
             padding: { x: 10, y: 5 },
             fill: '#fff'
         })
-        menuButton.setScrollFactor(0);
+        .setScrollFactor(0)
         .setInteractive()
         .on('pointerdown', () => this.scene.start('MenuScene'));
     }

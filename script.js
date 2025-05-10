@@ -11,8 +11,8 @@ class MainScene extends Phaser.Scene {
     }
 
     preload() {
-        // Temporariamente usando um placeholder para o tile
-        this.load.rectangle('tile', TILE_WIDTH, TILE_HEIGHT, 0x00ff00);
+        // Usando um sprite básico como tile
+        this.load.image('tile', 'https://labs.phaser.io/assets/sprites/block.png');
     }
 
     create() {

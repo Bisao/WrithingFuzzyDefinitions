@@ -1,44 +1,78 @@
 
+import { eventManager } from '../services/EventManager.js';
+
 export class NPC {
     constructor(scene, x, y) {
-        this.scene = scene;
-        const pos = scene.grid.cartesianToIsometric(x, y);
-        this.sprite = scene.add.sprite(pos.x + 400, pos.y + 100, 'npc');
-        this.sprite.setScale(0.5);
-        
-        this.gridX = x;
-        this.gridY = y;
-        this.moving = false;
-        this.moveTimer = null;
-        
-        this.startMoving();
+        try {
+            this.scene = scene;
+            this.gridX = x;
+            this.gridY = y;
+            this.moving = false;
+            this.moveTimer = null;
+            this.initialize();
+        } catch (error) {
+            console.error('Erro ao criar NPC:', error);
+            throw error;
+        }
+    }
+
+    initialize() {
+        try {
+            const pos = this.scene.grid.cartesianToIsometric(this.gridX, this.gridY);
+            this.sprite = this.scene.add.sprite(pos.x + 400, pos.y + 100, 'npc');
+            this.sprite.setScale(0.5);
+            this.startMoving();
+            
+            eventManager.emit('npc:created', { x: this.gridX, y: this.gridY });
+        } catch (error) {
+            console.error('Erro ao inicializar NPC:', error);
+            throw error;
+        }
     }
 
     startMoving() {
-        this.moveTimer = this.scene.time.addEvent({
-            delay: 2000,
-            callback: this.moveRandomly,
-            callbackScope: this,
-            loop: true
-        });
+        try {
+            this.moveTimer = this.scene.time.addEvent({
+                delay: 2000,
+                callback: this.moveRandomly,
+                callbackScope: this,
+                loop: true
+            });
+        } catch (error) {
+            console.error('Erro ao iniciar movimento do NPC:', error);
+        }
     }
 
     moveRandomly() {
         if (this.moving) return;
 
-        const directions = [
-            { x: 1, y: 0 },
-            { x: -1, y: 0 },
-            { x: 0, y: 1 },
-            { x: 0, y: -1 }
-        ];
+        try {
+            const directions = [
+                { x: 1, y: 0 },
+                { x: -1, y: 0 },
+                { x: 0, y: 1 },
+                { x: 0, y: -1 }
+            ];
 
-        const randomDir = Phaser.Math.RND.pick(directions);
-        const newX = this.gridX + randomDir.x;
-        const newY = this.gridY + randomDir.y;
+            const randomDir = Phaser.Math.RND.pick(directions);
+            const newX = this.gridX + randomDir.x;
+            const newY = this.gridY + randomDir.y;
 
-        if (newX >= 0 && newX < this.scene.grid.width &&
-            newY >= 0 && newY < this.scene.grid.height) {
+            if (this.isValidPosition(newX, newY)) {
+                this.move(newX, newY);
+            }
+        } catch (error) {
+            console.error('Erro durante movimento do NPC:', error);
+        }
+    }
+
+    isValidPosition(x, y) {
+        return x >= 0 && x < this.scene.grid.width &&
+               y >= 0 && y < this.scene.grid.height;
+    }
+
+    move(newX, newY) {
+        try {
             this.moving = true;
             const newPos = this.scene.grid.cartesianToIsometric(newX, newY);
             
@@ -52,15 +86,24 @@ export class NPC {
                     this.gridX = newX;
                     this.gridY = newY;
                     this.moving = false;
+                    eventManager.emit('npc:moved', { x: newX, y: newY });
                 }
             });
+        } catch (error) {
+            console.error('Erro ao mover NPC:', error);
+            this.moving = false;
         }
     }
 
     destroy() {
-        if (this.moveTimer) {
-            this.moveTimer.destroy();
+        try {
+            if (this.moveTimer) {
+                this.moveTimer.destroy();
+            }
+            this.sprite.destroy();
+            eventManager.emit('npc:destroyed', { x: this.gridX, y: this.gridY });
+        } catch (error) {
+            console.error('Erro ao destruir NPC:', error);
         }
-        this.sprite.destroy();
     }
 }

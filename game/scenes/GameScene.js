@@ -1,4 +1,3 @@
-
 import { Grid } from '../services/Grid.js';
 import { GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, TILE_HEIGHT } from '../constants/gridConfig.js';
 import { NPC } from '../entities/NPC.js';
@@ -20,7 +19,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         this.grid = new Grid(this, GRID_WIDTH, GRID_HEIGHT);
-        
+
         // Criar o grid de fazenda
         for (let y = 0; y < GRID_HEIGHT; y++) {
             for (let x = 0; x < GRID_WIDTH; x++) {
@@ -40,9 +39,6 @@ class GameScene extends Phaser.Scene {
         // Interface básica
         this.add.text(10, 10, 'Dinheiro: $100', { fontSize: '24px', fill: '#fff' });
 
-        // Criar NPC
-        this.npc = new NPC(this, 10, 10);
-        
         // Botão de menu
         const menuButton = this.add.text(700, 10, 'Menu', {
             fontSize: '24px',

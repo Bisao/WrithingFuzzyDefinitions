@@ -1,6 +1,5 @@
 import { Grid } from '../services/Grid.js';
 import { GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, TILE_HEIGHT } from '../constants/gridConfig.js';
-import { NPC } from '../entities/NPC.js';
 
 class GameScene extends Phaser.Scene {
     constructor() {

@@ -5,8 +5,8 @@ class MenuScene extends Phaser.Scene {
     }
 
     preload() {
-        // Carregar background de fazenda
-        this.load.image('bg', 'https://raw.githubusercontent.com/photonstorm/phaser3-examples/master/public/assets/pics/countryside-platform.png');
+        // Carregar background personalizado
+        this.load.image('bg', 'game/assets/background.png');
     }
 
     create() {
@@ -14,11 +14,11 @@ class MenuScene extends Phaser.Scene {
         const centerY = this.cameras.main.centerY;
         const isPortrait = this.scale.height > this.scale.width;
 
-        // Background com ajuste automático
+        // Background com ajuste automático e preservação do estilo
         const bg = this.add.image(centerX, centerY, 'bg');
         const scaleX = this.scale.width / bg.width;
         const scaleY = this.scale.height / bg.height;
-        const scale = Math.max(scaleX, scaleY);
+        const scale = Math.min(scaleX, scaleY);
         bg.setScale(scale).setScrollFactor(0);
 
         // Container para animação

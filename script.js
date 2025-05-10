@@ -2,6 +2,7 @@
 import { Grid } from './game/services/Grid.js';
 import { GRID_WIDTH, GRID_HEIGHT, TILE_WIDTH, TILE_HEIGHT } from './game/constants/gridConfig.js';
 import MenuScene from './game/scenes/MenuScene.js';
+import GameScene from './game/scenes/GameScene.js';
 
 class MainScene extends Phaser.Scene {
     constructor() {
@@ -63,7 +64,7 @@ const config = {
     width: 800,
     height: 600,
     backgroundColor: '#87CEEB', // Céu azul
-    scene: [MenuScene, MainScene],
+    scene: [MenuScene, GameScene, MainScene],
     scale: {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH

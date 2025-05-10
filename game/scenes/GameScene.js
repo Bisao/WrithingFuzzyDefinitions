@@ -24,6 +24,71 @@ class GameScene extends Phaser.Scene {
         this.input.addPointer(2); // Suporte para multitouch
         this.scale.lockOrientation('landscape'); // Forçar modo paisagem
 
+        // Configurar controles de câmera
+        this.cameras.main.setZoom(1);
+        this.isDragging = false;
+        this.lastPinchDistance = 0;
+
+        // Controles desktop
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.rightButtonDown()) {
+                this.isDragging = true;
+                this.dragStartX = pointer.x;
+                this.dragStartY = pointer.y;
+            }
+        });
+
+        this.input.on('pointermove', (pointer) => {
+            if (this.isDragging) {
+                const deltaX = pointer.x - this.dragStartX;
+                const deltaY = pointer.y - this.dragStartY;
+                this.cameras.main.scrollX -= deltaX;
+                this.cameras.main.scrollY -= deltaY;
+                this.dragStartX = pointer.x;
+                this.dragStartY = pointer.y;
+            }
+        });
+
+        this.input.on('pointerup', () => {
+            this.isDragging = false;
+        });
+
+        // Zoom com scroll do mouse
+        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+            const zoom = this.cameras.main.zoom;
+            this.cameras.main.setZoom(zoom - deltaY * 0.001);
+        });
+
+        // Controles mobile
+        this.input.on('pointermove', (pointer) => {
+            if (this.input.pointer1.isDown && !this.input.pointer2.isDown) {
+                // Mover com um dedo
+                const deltaX = pointer.x - pointer.prevPosition.x;
+                const deltaY = pointer.y - pointer.prevPosition.y;
+                this.cameras.main.scrollX -= deltaX;
+                this.cameras.main.scrollY -= deltaY;
+            }
+        });
+
+        // Pinça para zoom
+        this.input.on('pointermove', (pointer) => {
+            if (this.input.pointer1.isDown && this.input.pointer2.isDown) {
+                const distance = Phaser.Math.Distance.Between(
+                    this.input.pointer1.x, this.input.pointer1.y,
+                    this.input.pointer2.x, this.input.pointer2.y
+                );
+
+                if (this.lastPinchDistance > 0) {
+                    const delta = distance - this.lastPinchDistance;
+                    const zoom = this.cameras.main.zoom;
+                    this.cameras.main.setZoom(zoom + delta * 0.002);
+                }
+                this.lastPinchDistance = distance;
+            } else {
+                this.lastPinchDistance = 0;
+            }
+        });
+
         // Criar o grid de fazenda
         for (let y = 0; y < GRID_HEIGHT; y++) {
             for (let x = 0; x < GRID_WIDTH; x++) {
@@ -73,7 +138,10 @@ class GameScene extends Phaser.Scene {
     }
 
     update() {
-        // Lógica de atualização do jogo
+        // Limitar zoom entre 0.5 e 2
+        const zoom = this.cameras.main.zoom;
+        if (zoom < 0.5) this.cameras.main.setZoom(0.5);
+        if (zoom > 2) this.cameras.main.setZoom(2);
     }
 }
 

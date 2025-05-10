@@ -12,9 +12,14 @@ class MenuScene extends Phaser.Scene {
     create() {
         const centerX = this.cameras.main.centerX;
         const centerY = this.cameras.main.centerY;
+        const isPortrait = this.scale.height > this.scale.width;
 
-        // Background
-        this.add.image(centerX, centerY, 'bg').setDisplaySize(800, 600);
+        // Background com ajuste automático
+        const bg = this.add.image(centerX, centerY, 'bg');
+        const scaleX = this.scale.width / bg.width;
+        const scaleY = this.scale.height / bg.height;
+        const scale = Math.max(scaleX, scaleY);
+        bg.setScale(scale).setScrollFactor(0);
 
         // Container para animação
         const container = this.add.container(centerX, centerY);

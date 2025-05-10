@@ -69,6 +69,15 @@ const config = {
         height: '100%',
         autoCenter: Phaser.Scale.CENTER_BOTH,
         parent: 'game',
+        autoRound: true,
+        min: {
+            width: 320,
+            height: 240
+        },
+        max: {
+            width: 1920,
+            height: 1080
+        }
     },
     physics: {
         default: 'arcade',

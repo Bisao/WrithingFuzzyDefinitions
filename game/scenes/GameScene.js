@@ -40,23 +40,25 @@ class GameScene extends Phaser.Scene {
         this.player = this.add.sprite(startPos.x + 400, startPos.y + 100, 'player');
         this.player.setScale(0.5);
 
-        // Interface básica ajustável
-        const fontSize = Math.min(this.scale.width * 0.03, 24);
-        const margin = Math.min(this.scale.width * 0.02, 20);
+        // Interface básica ajustável com posicionamento responsivo
+        const fontSize = Math.min(Math.max(this.scale.width * 0.03, 16), 24);
+        const margin = Math.min(Math.max(this.scale.width * 0.02, 10), 20);
         
-        this.add.text(margin, margin, 'Dinheiro: $100', { 
+        // Ajuste do texto de dinheiro para ser sempre visível
+        const moneyText = this.add.text(margin, margin, 'Dinheiro: $100', { 
             fontSize: `${fontSize}px`, 
             fill: '#fff' 
         });
+        moneyText.setScrollFactor(0);
 
-        // Botão de menu responsivo
-        const menuButton = this.add.text(this.scale.width - margin, margin, 'Menu', {
+        // Botão de menu responsivo sempre visível
+        const menuButton = this.add.text(this.scale.width - margin * 4, margin, 'Menu', {
             fontSize: `${fontSize}px`,
-            fontSize: '24px',
             backgroundColor: '#2ecc71',
             padding: { x: 10, y: 5 },
             fill: '#fff'
         })
+        menuButton.setScrollFactor(0);
         .setInteractive()
         .on('pointerdown', () => this.scene.start('MenuScene'));
     }

@@ -1,4 +1,6 @@
 
+import { TILE_WIDTH, TILE_HEIGHT } from '../constants/gridConfig.js';
+
 export class Grid {
     constructor(scene, width, height) {
         this.scene = scene;
